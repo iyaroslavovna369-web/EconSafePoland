@@ -1,0 +1,163 @@
+<!-- economy.html -->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Економічна безпека Польщі</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js з CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="logo">Економічна безпека польщі</div>
+        <ul>
+            <li><a href="resume.html">Резюме</a></li>
+            <li><a href="economy.html" class="active">Економічна безпека</a></li>
+            <li><a href="threats.html">Загрози та протидія</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="main">
+    <section class="section">
+        <div class="flag-box">
+            <img src="poland-flag.png" alt="Прапор Польщі">
+            <div>
+                <h1>Економічна безпека Польщі</h1>
+                <p>
+                    Економічна безпека Польщі у 2013–2024&nbsp;рр. є змішаною: за окремими показниками рівень
+                    безпеки задовільний, за іншими — критичний або абсолютно небезпечний. 
+                    Виробнича та демографічна безпека загалом залишалися на задовільному рівні, демонструючи
+                    стабільну врожайність зернових та позитивні значення очікуваної тривалості життя.
+                    Водночас спостерігалося зростання імпортної залежності в енергетиці, що підвищує 
+                    вразливість країни до зовнішніх шоків. 
+                    Зовнішньоекономічна та інвестиційно-інноваційна безпека за показниками відкритості економіки 
+                    та частки ПІІ у ВВП часто перебували в зоні небезпеки, що свідчить про ризики надмірної 
+                    залежності від зовнішніх ринків та нестачі стійких інвестицій. 
+                    Продовольча безпека поступово покращувалася завдяки зростанню виробництва зерна на одну 
+                    особу, але не досягла оптимальних значень. 
+                    Соціальна безпека залишалася проблемною через значну диференціацію доходів, хоча тренд
+                    загалом був низхідним, тобто нерівність поступово зменшувалася.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Ключові показники економічної безпеки</h2>
+        <p>Нижче наведені лінійні графіки основних індикаторів економічної безпеки Польщі за 2013–2024&nbsp;рр.</p>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>Виробнича безпека: урожайність зернових (ц/га)</h3>
+                <canvas id="prodYield"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Демографічна безпека: очікувана тривалість життя (роки)</h3>
+                <canvas id="lifeExpectancy"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Енергетична безпека: імпортна залежність (%)</h3>
+                <canvas id="importDependence"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Зовнішньоекономічна безпека: відкритість економіки (%)</h3>
+                <canvas id="openness"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Інвестиційно-інноваційна безпека: ПІІ до ВВП (%)</h3>
+                <canvas id="fdi"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Продовольча безпека: виробництво зерна на особу (т/рік)</h3>
+                <canvas id="grainPerCapita"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Соціальна безпека: децильний коефіцієнт фондів</h3>
+                <canvas id="decile"></canvas>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    © 2025, Іванна Лук’яненко.
+</footer>
+
+<script>
+    // Дані
+
+    // 1. Виробнича безпека
+    const yearsProd = [2013,2014,2015,2016,2017,2018,2019,2020,2021,2022];
+    const yieldC = [38.0,42.7,37.3,40.3,42.0,33.7,36.1,46.9,45.6,48.6];
+
+    // 2. Демографічна безпека
+    const yearsDemo =[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+    const lifeExp = [77.5,78.0,77.8,77.7,78.0,76.4,75.4,77.2,78.4,78.7];// 3. Енергетична безпека
+    const yearsEnergy = [2014,2015,2016,2017,2018,2019,2020,2021,2022,2023];
+    const importDep = [29.4,29.8,30.8,38.3,43.5,45.2,42.8,40.5,46.0,48.0];
+
+    // 4. Зовнішньоекономічна безпека
+    const yearsOpen = [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+    const openness = [92.3,96.9,100.6,102.4,101.6,99.3,110.9,123.0,110.0,100.7];
+
+    // 5. Інвестиційно-інноваційна безпека
+    const yearsFDI = [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+    const fdiShare = [3.30,3.82,2.38,3.35,3.15,3.31,5.44,6.01,4.22,2.34];
+
+    // 6. Продовольча безпека
+    const yearsGrain = [2014,2015,2016,2017,2018,2019,2020,2021,2022,2023];
+    const grainPerCapita = [0.84,0.74,0.79,0.84,0.69,0.75,0.93,0.92,0.95,0.96];
+
+    // 7. Соціальна безпека
+    const yearsDecile = [2014,2015,2016,2017,2018,2019,2020,2021,2022,2023];
+    const decileCoef = [9.30,8.64,8.20,7.34,7.50,6.79,6.71,6.71,7.00,6.94];
+
+    // Функція для створення лінійного графіка
+    function createLineChart(canvasId, labels, data, label) {
+        const ctx = document.getElementById(canvasId);
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: '#b71c1c',
+                    backgroundColor: 'rgba(244,67,54,0.15)',
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointHoverRadius: 4,
+                    tension: 0.2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: { autoSkip: true, maxTicksLimit: 8 }
+                    },
+                    y: {
+                        beginAtZero: false
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+
+    // Створення графіків
+    createLineChart('prodYield', yearsProd, yieldC, 'Урожайність, ц/га');
+    createLineChart('lifeExpectancy', yearsDemo, lifeExp, 'Очікувана тривалість життя');
+    createLineChart('importDependence', yearsEnergy, importDep, 'Імпортна залежність, %');
+    createLineChart('openness', yearsOpen, openness, 'Відкритість економіки, %');
+    createLineChart('fdi', yearsFDI, fdiShare, 'ПІІ до ВВП, %');
+    createLineChart('grainPerCapita', yearsGrain, grainPerCapita, 'Зерно на особу, т/рік');
+    createLineChart('decile', yearsDecile, decileCoef, 'Децильний коефіцієнт фондів');
+</script>
+</body>
+</html>
